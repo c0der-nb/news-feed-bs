@@ -77,9 +77,9 @@ async function createAccordionOfItemsAndAddToDOM(magazine) {
 }
 
 (function init() {
-    magazines.forEach((magazine) => {
-        createAccordionOfItemsAndAddToDOM(magazine);
-    })
+    for (let i = 0; i < magazines.length; i++) {
+        createAccordionOfItemsAndAddToDOM(magazines[i]);
+    }
 })();
 
   
