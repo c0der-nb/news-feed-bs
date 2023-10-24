@@ -1,15 +1,5 @@
 let accordionCount = 0;
 
-function getMagazineResponse(magazine) {
-    return fetch('https://api.rss2json.com/v1/api.json?rss_url='+magazine).then((apiResponse) => {
-        return apiResponse.json().then((jsonResponse) => {
-            return jsonResponse;
-        }).catch((err) => {
-            return null;
-        })
-    })
-}
-
 function createCarouselForNewsItems(items) {
     const newsItemsCarouselEle = document.createElement('div');
     newsItemsCarouselEle.id = `carouselNewsItems${accordionCount}`;
@@ -53,7 +43,9 @@ function createCarouselForNewsItems(items) {
     return newsItemsCarouselEle;
 }
 
-function createAccordionOfItemsAndAddToDOM(news) {
+async function createAccordionOfItemsAndAddToDOM(magazine) {
+    const apiResponse = await fetch('https://api.rss2json.com/v1/api.json?rss_url='+magazine);
+    const news = await apiResponse.json();
     accordionCount += 1;
     const accordionContainerDiv = document.getElementById('accordion-id');
     const accordionItemEle = document.createElement('div');
@@ -86,9 +78,7 @@ function createAccordionOfItemsAndAddToDOM(news) {
 
 (function init() {
     magazines.forEach((magazine) => {
-        getMagazineResponse(magazine).then((news) => {
-            createAccordionOfItemsAndAddToDOM(news);
-        });
+        createAccordionOfItemsAndAddToDOM(magazine);
     })
 })();
 
